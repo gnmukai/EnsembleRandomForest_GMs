@@ -43,9 +43,9 @@ rf_ens_fn <- function(v, form, max_split, weights=FALSE, ntree=100, mtry=5, impo
 	#first bagging
 	# if(mode=='bin'){
 	# 	zero_sub_ens <- sample(1:nrow(v[v[,var]=="0",]),
-	#                        floor(0.9*nrow(v[v[,var]=="0",])))
+	#                        floor(0.75*nrow(v[v[,var]=="0",])))
 	# 	one_sub_ens <- sample(1:nrow(v[v[,var]!="0",]),
-	# 	                      floor(0.9*nrow(v[v[,var]!="0",])))
+	# 	                      floor(0.75*nrow(v[v[,var]!="0",])))
 
 	# 	#build a train and test set
 	# 	train_ens <- rbind(v[v[,var]=="0",][zero_sub_ens,], v[v[,var]=="1",][one_sub_ens,])
@@ -56,7 +56,7 @@ rf_ens_fn <- function(v, form, max_split, weights=FALSE, ntree=100, mtry=5, impo
 		                  function(x){
 		                  	n <- nrow(v[v[,var]==x,]);
 		                  sample(v$rf.ID[v[,var]==x],
-	                       floor(0.9*n))
+	                       floor(0.75*n)) # changing to 75/25
 		                  }))
 		train_ens <- v[v$rf.ID %in% sub_ens,]
 		test_ens <- v[!v$rf.ID %in% sub_ens,]
