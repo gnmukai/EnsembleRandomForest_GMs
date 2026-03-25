@@ -154,8 +154,9 @@ ens_random_forests <- function(df, var, covariates, header=NULL, out.folder=NULL
 			pred_ens_resid <- sapply(rf.ens, function(x) ((x$preds$PRES) - x$preds[,2]))
 			#pred_ens_trAUC <- sapply(rf.ens, function(x) {sapply(x$roc_train, function(y) y$auc)})
 			#pred_ens_teAUC <- sapply(rf.ens, function(x) {sapply(x$roc_test, function(y) y$auc)})
-			pred_ens_trRMSE <- sapply(rf.ens, function(x) ( rmse(x$preds[preds$type=='train',"PRES"], x$preds[preds$type=='train',2]) ))
-			pred_ens_teRMSE <- sapply(rf.ens, function(x) ( rmse(x$preds[preds$type=='test',"PRES"], x$preds[preds$type=='test',2]) ))
+									 
+			pred_ens_trRMSE <- sapply(rf.ens, function(x) ( sqrt(mean((x$preds[preds$type=='train',2] - x$preds[preds$type=='train',"PRES"])^2)) ))
+			pred_ens_teRMSE <- sapply(rf.ens, function(x) ( sqrt(mean((x$preds[preds$type=='test',2] - x$preds[preds$type=='test',"PRES"])^2)) ))
 			pred_ens_trR2 <- sapply(rf.ens, function(x) ( cor(x$preds[preds$type=='train',"PRES"], x$preds[preds$type=='train',2])^2 ))
 			pred_ens_teR2 <- sapply(rf.ens, function(x) ( cor(x$preds[preds$type=='test',"PRES"], x$preds[preds$type=='test',2])^2 ))									  
 			#pred_ens_trTSS <- sapply(rf.ens, function(x) {sapply(x$roc_train, function(y) y$tss)})
