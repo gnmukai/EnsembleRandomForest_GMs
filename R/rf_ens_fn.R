@@ -53,17 +53,18 @@ rf_ens_fn <- function(v, form, max_split, weights=FALSE, ntree=100, mtry=5, impo
 	# 	test_ens <- rbind(v[v[,var]=="0",][-zero_sub_ens,], v[v[,var]=="1",][-one_sub_ens,])
 	# }else{
 
-		sub_ens <- do.call('c',sapply(levels(v[,var]),
-		                  function(x){
-		                  	n <- nrow(v[v[,var]==x,]);
-		                  sample(v$rf.ID[v[,var]==x],
-	                       floor(0.75*n)) # changing to 75/25
-		                  }))
-	print(sub_ens)
-		train_ens <- v[v$rf.ID %in% sub_ens,]
-		test_ens <- v[!v$rf.ID %in% sub_ens,]
-	print(train_ens)
-	print(test_ens)
+		#sub_ens <- do.call('c',sapply(levels(v[,var]),
+		                #  function(x){
+		                #  	n <- nrow(v[v[,var]==x,]);
+		                 # sample(v$rf.ID[v[,var]==x],
+	                     #  floor(0.75*n)) # changing to 75/25
+		                 # }))
+	    DataInput_bound <- floor((nrow(v)/4)*(3)) #define % of training and test set
+		train_idx <- sample(seq_len(nrow(v)), DataInput_bound)
+
+		# split data
+		train_ens <- v[train_idx, ]
+		test_ens  <- v[-train_idx, ]
 	# }
 	
 
