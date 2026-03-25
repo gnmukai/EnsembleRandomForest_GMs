@@ -181,8 +181,8 @@ ens_random_forests <- function(df, var, covariates, header=NULL, out.folder=NULL
 		                             teRMSE=rowMeans(pred_ens_teRMSE),
 		                             #teTSS=rowMeans(pred_ens_teTSS)),
 						 			 teR2 = rowMeans(pred_ens_teR2)),
-		             roc_train = lapply(rf.ens, function(x)x$roc_train),
-		             roc_test = lapply(rf.ens, function(x)x$roc_test),
+		             #roc_train = lapply(rf.ens, function(x)x$roc_train),
+		             #roc_test = lapply(rf.ens, function(x)x$roc_test),
 		             pred = list(p = pred_ens_p,
 		                         resid = pred_ens_resid))
 		}
