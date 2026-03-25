@@ -75,6 +75,7 @@ rf_ens_fn <- function(v, form, max_split, weights=FALSE, ntree=100, mtry=5, impo
 		                    sampsize=rep(max_split,
 		                                 nlevels(v[,var])))
 	}else{
+		print("rf_ens_fn line 78")
 		mod <- randomForest(form, 
 		                    data=train_ens, 
 		                    ntree=ntree, 
