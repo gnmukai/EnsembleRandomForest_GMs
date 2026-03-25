@@ -160,8 +160,7 @@ ens_random_forests <- function(df, var, covariates, header=NULL, out.folder=NULL
 			pred_ens_teR2 <- sapply(rf.ens, function(x) ( cor(x$preds[x$preds$type=='test',"PRES"], x$preds[x$preds$type=='test',1])^2 ))									  
 			#pred_ens_trTSS <- sapply(rf.ens, function(x) {sapply(x$roc_train, function(y) y$tss)})
 			#pred_ens_teTSS <- sapply(rf.ens, function(x) {sapply(x$roc_test, function(y) y$tss)})
-			# Generate ensemble predictions
-			print("line 164")	
+			# Generate ensemble predictions	
 				pred_ens <- as.data.frame(rowMeans(pred_ens_p))
 				#colnames(pred_ens) <- paste0('P.',1:nlevels(v[,var]))
 				pred_ens$PRES <- v[,var]
@@ -170,18 +169,19 @@ ens_random_forests <- function(df, var, covariates, header=NULL, out.folder=NULL
 				#roc_ens <- lapply(1:nlevels(v[,var]),function(x) rocr_ens(pred_ens[,x], as.integer(pred_ens$PRES==levels(v[,var])[x])))
 			# RMSE and R2 on ensemble
 				#rr_ens <- 
+			print(pred_ens_trRMSE)
 			pack <- list(data = v, 
 		             model = rf.ens, 
 		             ens.pred = pred_ens,
 		             #ens.perf = roc_ens,
 		             mu.tr.perf = c(#trAUC=rowMeans(pred_ens_trAUC),
-		                             trRMSE=rowMeans(pred_ens_trRMSE),
+		                             trRMSE=mean(pred_ens_trRMSE),
 		                             #trTSS=rowMeans(pred_ens_trTSS)),
-						 			trR2 = rowMeans(pred_ens_trR2)),
+						 			trR2 = mean(pred_ens_trR2)),
 		             mu.te.perf = c(#teAUC=rowMeans(pred_ens_teAUC),
-		                             teRMSE=rowMeans(pred_ens_teRMSE),
+		                             teRMSE=mean(pred_ens_teRMSE),
 		                             #teTSS=rowMeans(pred_ens_teTSS)),
-						 			 teR2 = rowMeans(pred_ens_teR2)),
+						 			 teR2 = mean(pred_ens_teR2)),
 		             #roc_train = lapply(rf.ens, function(x)x$roc_train),
 		             #roc_test = lapply(rf.ens, function(x)x$roc_test),
 		             pred = list(p = pred_ens_p,
