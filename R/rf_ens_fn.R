@@ -59,8 +59,11 @@ rf_ens_fn <- function(v, form, max_split, weights=FALSE, ntree=100, mtry=5, impo
 		                  sample(v$rf.ID[v[,var]==x],
 	                       floor(0.75*n)) # changing to 75/25
 		                  }))
+	print(sub_ens)
 		train_ens <- v[v$rf.ID %in% sub_ens,]
 		test_ens <- v[!v$rf.ID %in% sub_ens,]
+	print(train_ens)
+	print(test_ens)
 	# }
 	
 
