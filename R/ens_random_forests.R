@@ -100,13 +100,14 @@ ens_random_forests <- function(df, var, covariates, header=NULL, out.folder=NULL
 					rf_ens_fn(v, form, max_split, weights = TRUE,
 					          ntree=ntree, mtry=mtry, importance=TRUE)
 				}
-				print("line 103")
 			}else{
+				print("line 104")
 				rf.ens <- foreach(i=1:n.forests, .packages=c('randomForest','ROCR'), .export = c('rf_ens_fn')) %dopar%{
 					rf_ens_fn(v, form, max_split, weights = FALSE,
 					          ntree=ntree, mtry=mtry, importance=TRUE)
+				print("line 108")
 				}
-				print("line 109")
+				print("line 110")
 			}
 			stopCluster(cl)
 		}else{
