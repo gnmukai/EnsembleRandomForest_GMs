@@ -151,12 +151,9 @@ ens_random_forests <- function(df, var, covariates, header=NULL, out.folder=NULL
 			print(rf.ens)
 			print(sapply(rf.ens, function(x) dim(x$preds) ))
 			pred_ens_p <- sapply(rf.ens, function(x) x$preds[,2])
-			print("line 154")
 			pred_ens_resid <- sapply(rf.ens, function(x) ((x$preds$PRES) - x$preds[,2]))
-			print("line 156")
 			#pred_ens_trAUC <- sapply(rf.ens, function(x) {sapply(x$roc_train, function(y) y$auc)})
-			#pred_ens_teAUC <- sapply(rf.ens, function(x) {sapply(x$roc_test, function(y) y$auc)})
-			print("line 159")					 
+			#pred_ens_teAUC <- sapply(rf.ens, function(x) {sapply(x$roc_test, function(y) y$auc)})				 
 			pred_ens_trRMSE <- sapply(rf.ens, function(x) ( sqrt(mean((x$preds[x$preds$type=='train',1] - x$preds[x$preds$type=='train',"PRES"])^2)) ))
 			pred_ens_teRMSE <- sapply(rf.ens, function(x) ( sqrt(mean((x$preds[x$preds$type=='test',1] - x$preds[x$preds$type=='test',"PRES"])^2)) ))
 			pred_ens_trR2 <- sapply(rf.ens, function(x) ( cor(x$preds[x$preds$type=='train',"PRES"], x$preds[x$preds$type=='train',1])^2 ))
@@ -164,6 +161,8 @@ ens_random_forests <- function(df, var, covariates, header=NULL, out.folder=NULL
 			#pred_ens_trTSS <- sapply(rf.ens, function(x) {sapply(x$roc_train, function(y) y$tss)})
 			#pred_ens_teTSS <- sapply(rf.ens, function(x) {sapply(x$roc_test, function(y) y$tss)})
 			# Generate ensemble predictions
+			print("line 164")	
+			print(pred_ens_p)
 				pred_ens <- as.data.frame(sapply(pred_ens_p, rowMeans))
 				#colnames(pred_ens) <- paste0('P.',1:nlevels(v[,var]))
 				pred_ens$PRES <- v[,var]
