@@ -30,6 +30,7 @@
 #' plot(density(rf_ex$preds[,2],from=0,to=1,adj=2), main="", las=1)
 #' 
 rf_ens_fn <- function(v, form, max_split, weights=FALSE, ntree=100, mtry=5, importance=TRUE){
+	print("starting rf_ens_fn")
 	if(missing(v)) stop("Supply a ERF data.frame")
 	if(missing(form)) stop("Supply a model formula")
 	var <- as.character(form)[2]
