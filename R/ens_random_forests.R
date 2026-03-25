@@ -86,7 +86,6 @@ ens_random_forests <- function(df, var, covariates, header=NULL, out.folder=NULL
 		                   duplicate=duplicate, mode = mode)
 		
 		max_split <- max_splitter(v)
-	print("made max_split")
 	# Ensemble Random Forest
 		if(cores!=1){
 			UseCores <- ifelse(n.forests < cores, n.forests, cores) #use less cores if n.forests < cores
@@ -94,20 +93,16 @@ ens_random_forests <- function(df, var, covariates, header=NULL, out.folder=NULL
 
 			cl <- makeCluster(UseCores) #make clusters
 			registerDoParallel(cl) #designate cores
-			print("line 97")
 			if(!is.null(weights)){
 				rf.ens <- foreach(i=1:n.forests, .packages=c('randomForest','ROCR'), .export = c('rf_ens_fn')) %dopar%{
 					rf_ens_fn(v, form, max_split, weights = TRUE,
 					          ntree=ntree, mtry=mtry, importance=TRUE)
 				}
 			}else{
-				print("line 104")
 				rf.ens <- foreach(i=1:n.forests, .packages=c('randomForest','ROCR'), .export = c('rf_ens_fn')) %dopar%{
 					rf_ens_fn(v, form, max_split, weights = FALSE,
 					          ntree=ntree, mtry=mtry, importance=TRUE)
-				print("line 108")
 				}
-				print("line 110")
 			}
 			stopCluster(cl)
 		}else{
