@@ -148,8 +148,6 @@ ens_random_forests <- function(df, var, covariates, header=NULL, out.folder=NULL
 	             pred = list(p = pred_ens_p,
 	                         resid = pred_ens_resid))
 		}else{
-			print(rf.ens)
-			print(sapply(rf.ens, function(x) dim(x$preds) ))
 			pred_ens_p <- sapply(rf.ens, function(x) x$preds[,2])
 			pred_ens_resid <- sapply(rf.ens, function(x) ((x$preds$PRES) - x$preds[,2]))
 			#pred_ens_trAUC <- sapply(rf.ens, function(x) {sapply(x$roc_train, function(y) y$auc)})
@@ -169,7 +167,6 @@ ens_random_forests <- function(df, var, covariates, header=NULL, out.folder=NULL
 				#roc_ens <- lapply(1:nlevels(v[,var]),function(x) rocr_ens(pred_ens[,x], as.integer(pred_ens$PRES==levels(v[,var])[x])))
 			# RMSE and R2 on ensemble
 				#rr_ens <- 
-			print(pred_ens_trRMSE)
 			pack <- list(data = v, 
 		             model = rf.ens, 
 		             ens.pred = pred_ens,
@@ -188,6 +185,7 @@ ens_random_forests <- function(df, var, covariates, header=NULL, out.folder=NULL
 		                         resid = pred_ens_resid))
 		}
 	# Get variable importance
+		print(sapply(rf.ens, function(x) x$mod$importance))
 		if(importance){
 			mu_imp <- sapply(rf.ens, function(x) x$mod$importance[,3])
 			sd_imp <- sapply(rf.ens, function(x) x$mod$importanceSD[,3])
