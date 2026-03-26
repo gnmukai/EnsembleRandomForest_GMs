@@ -148,8 +148,8 @@ ens_random_forests <- function(df, var, covariates, header=NULL, out.folder=NULL
 	             pred = list(p = pred_ens_p,
 	                         resid = pred_ens_resid))
 		}else{
-			pred_ens_p <- sapply(rf.ens, function(x) x$preds[,2])
-			pred_ens_resid <- sapply(rf.ens, function(x) ((x$preds$PRES) - x$preds[,2]))
+			pred_ens_p <- sapply(rf.ens, function(x) x$preds[,1])
+			pred_ens_resid <- sapply(rf.ens, function(x) ((x$preds$PRES) - x$preds[,1]))
 			#pred_ens_trAUC <- sapply(rf.ens, function(x) {sapply(x$roc_train, function(y) y$auc)})
 			#pred_ens_teAUC <- sapply(rf.ens, function(x) {sapply(x$roc_test, function(y) y$auc)})				 
 			pred_ens_trRMSE <- sapply(rf.ens, function(x) ( sqrt(mean((x$preds[x$preds$type=='train',1] - x$preds[x$preds$type=='train',"PRES"])^2)) ))
