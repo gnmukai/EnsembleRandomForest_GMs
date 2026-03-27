@@ -154,6 +154,8 @@ ens_random_forests <- function(df, var, covariates, header=NULL, out.folder=NULL
 			#pred_ens_teAUC <- sapply(rf.ens, function(x) {sapply(x$roc_test, function(y) y$auc)})				 
 			pred_ens_trRMSE <- sapply(rf.ens, function(x) ( sqrt(mean((x$preds[x$preds$type=='train',1] - x$preds[x$preds$type=='train',"PRES"])^2)) ))
 			pred_ens_teRMSE <- sapply(rf.ens, function(x) ( sqrt(mean((x$preds[x$preds$type=='test',1] - x$preds[x$preds$type=='test',"PRES"])^2)) ))
+			pred_ens_trMAE <-  sapply(rf.ens, function(x) ( mean(abs(x$preds[x$preds$type=='train',1] - x$preds[x$preds$type=='train',"PRES"]) ) ))
+			pred_ens_teMAE <-  sapply(rf.ens, function(x) ( mean(abs(x$preds[x$preds$type=='test',1] - x$preds[x$preds$type=='test',"PRES"]) ) ))
 			pred_ens_trR2 <- sapply(rf.ens, function(x) ( cor(x$preds[x$preds$type=='train',"PRES"], x$preds[x$preds$type=='train',1])^2 ))
 			pred_ens_teR2 <- sapply(rf.ens, function(x) ( cor(x$preds[x$preds$type=='test',"PRES"], x$preds[x$preds$type=='test',1])^2 ))									  
 			#pred_ens_trTSS <- sapply(rf.ens, function(x) {sapply(x$roc_train, function(y) y$tss)})
@@ -173,10 +175,12 @@ ens_random_forests <- function(df, var, covariates, header=NULL, out.folder=NULL
 		             #ens.perf = roc_ens,
 		             mu.tr.perf = c(#trAUC=rowMeans(pred_ens_trAUC),
 		                             trRMSE=mean(pred_ens_trRMSE),
+						 			 trMAE=mean(pred_ens_trMAE),
 		                             #trTSS=rowMeans(pred_ens_trTSS)),
 						 			trR2 = mean(pred_ens_trR2)),
 		             mu.te.perf = c(#teAUC=rowMeans(pred_ens_teAUC),
 		                             teRMSE=mean(pred_ens_teRMSE),
+						 			 teMAE=mean(pred_ens_teMAE),
 		                             #teTSS=rowMeans(pred_ens_teTSS)),
 						 			 teR2 = mean(pred_ens_teR2)),
 		             #roc_train = lapply(rf.ens, function(x)x$roc_train),
